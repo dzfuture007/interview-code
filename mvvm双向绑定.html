@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>双向绑定</title>
+</head>
+
+<body>
+    <input id="test" type="text">
+
+    <script>
+        var inputEle = document.getElementById("test");
+
+        // 正向：data发生变化更新view
+        var obj = {};
+        var name = "Frank Deng";
+        var obj1 = Object.defineProperty(obj, "name", {
+            enumerable : true,
+            configurable : true,
+            get: function() {
+                return name;
+            },
+            set: function(value) {
+                if (value !== name) {
+                    inputEle.value = value;
+                }
+
+                name = value;
+            }
+        });
+
+        inputEle.value = obj1.name;
+
+        setTimeout(function() {
+            obj1.name = "Xia";
+        }, 2000)
+
+        // 反向：view发生改变更新data
+        inputEle.addEventListener("change", function() {
+            obj1.name = inputEle.value;
+            console.log(obj1.name);
+        });      
+    </script>
+</body>
+
+</html>
