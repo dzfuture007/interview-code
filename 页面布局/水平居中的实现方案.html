@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>水平居中的4中思路</title>
+  <style>
+    html * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .parent {
+      background-color: yellow;
+      height: 100px;
+      margin-bottom: 10px;
+    }
+
+    .child {
+      background-color: green;
+      height: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 思路一：父元素设置text-aligin:center，子元素设置inline-block使它变为行内元素从而实现水平居中 -->
+  <div class="parent parent1">
+    <style>
+      .parent1 {
+        text-align: center;
+      }
+
+      .child1 {
+        display: inline-block;
+      }
+    </style>
+    <div class="child child1">text-align:center</div>
+  </div>
+  <!-- 思路二：在本元素上设置margin:0 auto实现块级元素的水平居中 -->
+  <!-- 1. 子元素设置display:table，使子元素成为块级元素，同时table还具有包裹性，宽度由内容撑开 -->
+  <div class="parent parent2-1">
+    <style>
+      .child2-1 {
+        display: table;
+        margin: 0 auto;
+      }
+    </style>
+    <div class="child child2-1">table</div>
+  </div>
+  <!-- 2. 若子元素宽度固定，可以直接通过margin:0 auto实现块级元素的水平居中 -->
+  <div class="parent parent2-2">
+    <style>
+      .child2-2 {
+        width: 100px;
+        margin: 0 auto;
+      }
+    </style>
+    <div class="child child2-2">margin:0 auto</div>
+  </div>
+  <!-- 思路三：flex -->
+  <!-- 1. 父元素设置主轴对齐方式justify-conent:center -->
+  <div class="parent parent3-1">
+    <style>
+      .parent3-1 {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+    <div class="child child3-1">flex</div>
+  </div>
+  <!-- 2. 子元素设置主margin: 0 auto -->
+  <div class="parent parent3-2">
+    <style>
+      .parent3-2 {
+        display: flex;
+      }
+
+      .child3-2 {
+        margin: 0 auto
+      }
+    </style>
+    <div class="child child3-2">flexflexflexflexflexflex</div>
+  </div>
+  <!-- 思路四：通过绝对定位实现水平居中 -->
+  <!-- 1. 配合translate()位移函数 -->
+  <div class="parent parent4-1">
+    <style>
+      .parent4-1 {
+        position: relative;
+      }
+
+      .child4-1 {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%)
+      }
+    </style>
+    <div class="child child4-1">transform:translateX(-50%)</div>
+  </div>
+  <!-- 2. 配合relative -->
+  <div class="parent parent4-2">
+    <style>
+      .parent4-2 {
+        position: relative;
+      }
+
+      .childwrap1 {
+        position: absolute;
+        left: 50%;
+      }
+
+      .child4-2 {
+        position: relative;
+        left: -50%;
+      }
+    </style>
+    <div class="childwrap1">
+      <div class="child child4-2">借助子元素自身的relative</div>
+    </div>
+  </div>
+  <!-- 3. 配合margin负值 -->
+  <div class="parent parent4-3">
+    <style>
+      .parent4-3 {
+        position: relative;
+      }
+
+      .childwrap2 {
+        position: absolute;
+        left: 50%;
+      }
+
+      .child4-3 {
+        margin-left: -50%;
+        width: 50px;
+      }
+    </style>
+    <div class="childwrap2">
+      <div class="child child4-3">Demo</div>
+    </div>
+  </div>
+</body>
+
+</html>
