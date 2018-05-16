@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>垂直居中的实现方案</title>
+  <style>
+    html * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin-left: 100px;
+    }
+
+    .parent {
+      width: 300px;
+      height: 100px;
+      background-color: gray;
+      margin-bottom: 10px;
+    }
+
+    .child {
+      background-color: pink;
+    }
+
+    .single-line {
+      line-height: 100px;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 思路一：利用行高line-height实现单行文本垂直居中 -->
+  <div class="parent single-line">line-height</div>
+  <!-- 思路二：设置vertical-align:middle实现垂直居中 -->
+  <div class="parent parent1-1">
+    <style>
+      .parent1-1 {
+        display: table-cell;
+        vertical-align: middle;
+      }
+    </style>
+    <div class="child child1-1">vertical-align:middle实现垂直居中</div>
+  </div>
+  <!-- 若元素是图片，通过设置父元素的行高来代替高度，且设置父元素为0 -->
+  <div class="parent parent2-2">
+    <style>
+      .parent2-2 {
+        line-height: 100px;
+        font-size: 0;
+        margin-top: 10px;
+      }
+
+      img {
+        vertical-align: middle;
+      }
+    </style>
+    <img src="https://pic4.zhimg.com/80/572dd89eb87dd3857d2a33815a58a764_hd.jpg" width="50%" alt="">
+  </div>
+  <!-- 思路三：通过绝对定位实现垂直居中 -->
+  <!-- 1. 配合translate()位移函数来实现 -->
+  <div class="parent parent3-1">
+    <style>
+      .parent3-1 {
+        position: relative;
+      }
+
+      .child3-1 {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    </style>
+    <div class="child child3-1">结合translate()位移函数来实现 </div>
+  </div>
+  <!-- 2. 若子元素定高，通过margin: auto 0 -->
+  <div class="parent parent3-2">
+    <style>
+      .parent3-2 {
+        position: relative;
+      }
+
+      .child3-2 {
+        position: absolute;
+        height: 50px;
+        margin: auto 0;
+        top: 0;
+        bottom: 0;
+      }
+    </style>
+    <div class="child child3-2">若子元素定高，结合绝对定位的盒模型属性</div>
+  </div>
+  <!-- 2. 子元素高度固定，配合margin负值 -->
+  <div class="parent parent3-3">
+    <style>
+      .parent3-3 {
+        position: relative;
+      }
+
+      .child3-3 {
+        position: absolute;
+        top: 50%;
+        height: 50px;
+        margin-top: -25px;
+      }
+    </style>
+    <div class="child child3-3">结合margin负值来实现 </div>
+  </div>
+  <!-- 思路四：flex布局 -->
+  <!-- 1. 在伸缩容器上设置侧轴对齐方式align-items: center -->
+  <div class="parent parent4-1">
+    <style>
+      .parent4-1 {
+        display: flex;
+        align-items: center;
+      }
+    </style>
+    <div class="child child4-1">flex布局</div>
+  </div>
+  <div class="parent parent4-2">
+    <style>
+      .parent4-2 {
+        display: flex;
+      }
+
+      .child4-2 {
+        margin: auto 0;
+      }
+    </style>
+    <div class="child child4-2">flex布局</div>
+  </div>
+  <!-- 思路五：grid布局 -->
+  <!-- 1. 在网格容器上设置align-items或align-content -->
+  <div class="parent parent5-1">
+    <style>
+      .parent5-1 {
+        display: grid;
+        /* align-items: center; */
+        align-content: center;
+      }
+    </style>
+    <div class="child child5-1">grid布局</div>
+  </div>
+  <!-- 2. 在网格项目中设置align-self或者margin: auto 0 -->
+  <div class="parent parent5-2">
+    <style>
+      .parent5-2 {
+        display: grid;
+      }
+
+      .child5-2 {
+        margin: auto 0;
+        /* align-self: center; */
+      }
+    </style>
+    <div class="child child5-2">grid布局</div>
+  </div>
+</body>
+
+</html>
