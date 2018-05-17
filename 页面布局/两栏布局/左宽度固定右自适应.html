@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>两栏布局</title>
+  <style>
+    html * {
+      padding: 0;
+      margin: 0;
+    }
+
+    article>div {
+      min-height: 100px;
+    }
+
+    article {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 思路一：flex布局 -->
+  <setcion>
+    <style>
+      .flex {
+        display: flex;
+      }
+
+      .sidebar1 {
+        width: 200px;
+        background-color: red;
+      }
+
+      .main1 {
+        flex: 1;
+        background-color: yellow;
+      }
+    </style>
+    <article class="flex">
+      <div class="sidebar1"></div>
+      <div class="main1">flex布局</div>
+    </article>
+  </setcion>
+  <!-- 思路二：grid布局 -->
+  <section>
+    <style>
+      .grid {
+        display: grid;
+        grid-template-rows: 100px;
+        grid-template-columns: 200px auto;
+      }
+
+      .sidebar2 {
+        width: 200px;
+        background-color: red;
+      }
+
+      .main2 {
+        background-color: yellow;
+      }
+    </style>
+    <article class="grid">
+      <div class="sidebar2"></div>
+      <div class="main2">grid布局</div>
+    </article>
+  </section>
+  <!-- 思路三：float+margin -->
+  <!-- 1. float+margin正值 -->
+  <section>
+    <style>
+      .sidebar3-1 {
+        float: left;
+        width: 200px;
+        background-color: red;
+      }
+
+      .main3-1 {
+        margin-left: 200px;
+        background-color: yellow;
+      }
+    </style>
+    <article class="float3-1">
+      <div class="sidebar3-1"></div>
+      <div class="main3-1">float+margin正值</div>
+    </article>
+  </section>
+  <!-- 2. float+margin负值 -->
+  <section>
+    <style>
+      .main-wrapper-1 {
+        float: left;
+        width: 100%;
+      }
+
+      .main3-2 {
+        margin-left: 200px;
+        background-color: yellow;
+        height: 100px;
+      }
+
+      .sidebar3-2 {
+        float: left;
+        width: 200px;
+        margin-left: -100%;
+        background-color: red;
+      }
+    </style>
+    <article class="float3-2">
+      <div class="main-wrapper-1">
+        <div class="main3-2">float+margin负值</div>
+      </div>
+      <div class="sidebar3-2"></div>
+    </article>
+  </section>
+  <!-- 思路四：absolute+marin  -->
+  <!-- <section>
+      <style>
+        .absolute4-1 {
+          position: relative;
+        }
+
+        .sidebar4-1 {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 200px;
+          background-color: red;
+        }
+
+        .main4-1 {
+          margin-left: 200px;
+          background-color: yellow;
+        }
+      </style>
+      <article class="absolute4-1">
+        <div class="sidebar4-1"></div>
+        <div class="main4-1"></div>
+      </article>
+    </section> -->
+  <!-- 思路五：table -->
+  <section>
+    <style>
+      .table {
+        display: table;
+        width: 100%;
+        height: 100px;
+      }
+
+      .sidebar5,
+      .main5 {
+        display: table-cell;
+      }
+
+      .sidebar5 {
+        width: 200px;
+        background-color: red;
+      }
+
+      .main5 {
+        background-color: yellow;
+      }
+    </style>
+    <article class="table">
+      <div class="sidebar5"></div>
+      <div class="main5">table</div>
+    </article>
+  </section>
+</body>
+
+</html>
