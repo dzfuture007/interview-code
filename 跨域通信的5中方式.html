@@ -1,72 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>跨域通信的5中实现方式</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <script>
-        // 第一种jsonp
-        // 得到航班信息查询结果后的回调函数
-        var flightHandler = function (data) {
-            alert('你查询的航班结果是：票价 ' + data.price + ' 元，' + '余票 ' + data.tickets + ' 张。');
-        };
-        // 提供jsonp服务的url地址（不管是什么类型的地址，最终生成的返回值都是一段javascript代码）
-        var url = "http://flightQuery.com/jsonp/flightResult.aspx?code=CA1998&callback=flightHandler";
-        // 创建script标签，设置其属性
-        var script = document.createElement('script');
-        script.setAttribute('src', url);
-        script.async = true;
-        // 把script标签加入head，此时调用开始
-        document.getElementsByTagName('head')[0].appendChild(script);
-        /*
-         * 第二种：利用Hash
-         * 场景：当前页面A通过iframe或farame嵌入了跨域的页面B
-         */
-        // A中的代码
-        var B = document.getElementsByTagName('iframe');
-        B.src = B.src + '#' + 'data';
-        // B中的代码
-        window.onhashchange = function () {
-            var data = winow.loaction.hash;
-        };
+      // 第一种jsonp
+      // 得到航班信息查询结果后的回调函数
+      var flightHandler = function (data) {
+        alert(
+          '你查询的航班结果是：票价 ' +
+            data.price +
+            ' 元，' +
+            '余票 ' +
+            data.tickets +
+            ' 张。'
+        );
+      };
+      // 提供jsonp服务的url地址（不管是什么类型的地址，最终生成的返回值都是一段javascript代码）
+      var url =
+        'http://flightQuery.com/jsonp/flightResult.aspx?code=CA1998&callback=flightHandler';
+      // 创建script标签，设置其属性
+      var script = document.createElement('script');
+      script.setAttribute('src', url);
+      script.async = true;
+      // 把script标签加入head，此时调用开始
+      document.getElementsByTagName('head')[0].appendChild(script);
+      /*
+       * 第二种：利用Hash
+       * 场景：当前页面B通过iframe或farame嵌入了跨域的页面A
+       */
+      // A中的代码
+      var B = document.getElementsByTagName('iframe');
+      B.src = B.src + '#' + 'data';
+      // B中的代码
+      window.onhashchange = function () {
+        var data = winow.loaction.hash;
+      };
 
-        // 第三种：websocket
-        var ws = new WebSocket('wss://echo.websocket.org');
-        ws.open = function (evt) {
-            console.log('Connection open ...');
-            ws.send('Hello WebSockets!');
-        };
-        ws.onmessage = function (evt) {
-            console.log('Received Message: ', evt.data);
-            ws.close();
-        };
-        ws.onclose = function (evt) {
-            console.log('Connection closed.');
-        };
+      // 第三种：websocket
+      var ws = new WebSocket('wss://echo.websocket.org');
+      ws.open = function (evt) {
+        console.log('Connection open ...');
+        ws.send('Hello WebSockets!');
+      };
+      ws.onmessage = function (evt) {
+        console.log('Received Message: ', evt.data);
+        ws.close();
+      };
+      ws.onclose = function (evt) {
+        console.log('Connection closed.');
+      };
 
-        // 第四种：postMessage
-        // 窗口A(http:A.com)向跨域的窗口B(http:B.com)发送信息
-        Awindow.postMessage('data', 'http://B.com');
-        // 在窗口B中监听
-        Bwindow.addEventListener('message', function (event) {
-            console.log(event.origin);
-            console.log(event.source);
-            console.log(event.data);
-        }, false);
+      // 第四种：postMessage
+      // 窗口A(http:A.com)向跨域的窗口B(http:B.com)发送信息
+      Awindow.postMessage('data', 'http://B.com');
+      // 在窗口B中监听
+      Bwindow.addEventListener(
+        'message',
+        function (event) {
+          console.log(event.origin);
+          console.log(event.source);
+          console.log(event.data);
+        },
+        false
+      );
 
-        // 第五种：CORS
-        // url（必选），options（可选）
-        fetch('/some/url/', {
-            method: 'get',
-        }).then(function (response) {
-        }).catch(function (err) {
-        });
+      // 第五种：CORS
+      // url（必选），options（可选）
+      fetch('/some/url/', {
+        method: 'get',
+      })
+        .then(function (response) {})
+        .catch(function (err) {});
     </script>
-</body>
-
+  </body>
 </html>

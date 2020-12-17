@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>模拟使用Schema协议实现与客户端通讯</title>
+  </head>
+  <body>
+    <button id="btn">扫一扫</button>
+
+    <script>
+      // 全局注册一个回调函数
+      window['_invoke_scan_callback_'] = function (result) {
+        alert(result);
+      };
+
+      function invokeScan() {
+        var iframe = document.createElement('iframe');
+
+        iframe.style.display = 'none';
+        iframe.src =
+          'wexin://dl/scan?k1=v1&k2=v2&callback=_invoke_scan_callback_';
+
+        var body = document.body;
+
+        // 一旦把iframe添加到body中就发起了schema协议
+        body.appendChild(iframe);
+
+        setTimeout(() => {
+          body.removeChild(iframe);
+          iframe = null;
+        });
+      }
+
+      document.getElementById('btn').addEventListener('click', function () {
+        invokeScan();
+      });
+    </script>
+  </body>
+</html>

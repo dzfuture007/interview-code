@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ES5实现let和set</title>
+  </head>
+  <body>
+    <p>ES5实现let和set</p>
+    <script>
+      // ES5实现let：使用立即执行函数IFFE
+      // 用闭包的形式来定义一个不被污染的变量
+      (function () {
+        var a = 1;
+        console.log(a);
+      })();
+
+      // ES5实现const：Object.defineProperty，其中一个属性是writable
+      // 由于ES5环境没有block的概念，所以是无法百分百实现const，只能挂在到某个对象下，要么是全局window，要么是自定义的一个object来当容器
+      function _const(key, value) {
+        // 把要定义的变量挂载到window下，并复制value
+        window[key] = value;
+
+        // 利用Object.defineProperty的能力劫持当前对象，并修改其属性描述符
+        Object.defineProperty(window, key, {
+          enumerable: false,
+          configurable: false,
+          get: function () {
+            return value;
+          },
+          set: function (newValue) {
+            if (newValue !== value) {
+              throw TypeError('只读变量，不可修改');
+            } else {
+              return value;
+            }
+          },
+        });
+      }
+
+      // 测试代码
+      _const('a', 10);
+      console.log(a);
+
+      // 因为const定义的属性在global下也是不存在的，所以用到了enumerable: false来模拟这一功能
+      for (let key in window) {
+        if (item === 'a') {
+          // 因为不可枚举，所以不执行
+          console.log(window[key]);
+        }
+      }
+
+      a = 20; // 报错
+    </script>
+  </body>
+</html>

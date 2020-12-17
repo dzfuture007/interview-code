@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Schema使用的封装</title>
+  </head>
+  <body>
+    <script>
+      function _getSchema(action, data, callback) {
+        var schema = 'myapp://utils';
+
+        schema += '/' + action;
+
+        schema += '?a=a';
+
+        for (var key in data) {
+          if (data.hasOwnProperty(key)) {
+            schema += '&' + key + '=' + data[key];
+          }
+        }
+
+        var callbackName = '';
+
+        if (typeof callback === 'string') {
+          callbackName = callback;
+        } else {
+          callbackName = action + Date.now();
+          window[callbackName] = callback;
+        }
+
+        schema += '&callback=' + callbackName;
+
+        console.log(schema);
+
+        return schema;
+      }
+
+      function _invoke(action, data, callback) {
+        var iframe = document.createElement('iframe');
+
+        iframe.style.display = 'none';
+        iframe.src = _getSchema(action, data, callback);
+
+        var body = document.body;
+
+        // 一旦把iframe添加到body中就发起了schema协议
+        body.appendChild(iframe);
+
+        setTimeout(() => {
+          // 使用完之后一定要删除iframe
+          body.removeChild(iframe);
+          iframe = null;
+        });
+      }
+
+      function invokeShare(data, callback) {
+        _invoke('share', data, callback);
+      }
+
+      function invokeLogin(data, callback) {
+        _invoke('login', data, callback);
+      }
+
+      function invokeScan(data, callback) {
+        _invoke('scan', data, callback);
+      }
+
+      window.invoke = {
+        share: invokeShare,
+        login: invokeLogin,
+        scan: invokeScan,
+      };
+
+      // 使用
+      window.invoke.share(
+        {
+          title: 'xxx',
+          content: 'xxx',
+        },
+        function (result) {
+          if (result.errno === 0) {
+            alert('分享成功');
+          } else {
+            alert(result.message);
+          }
+        }
+      );
+    </script>
+  </body>
+</html>
